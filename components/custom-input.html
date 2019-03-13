@@ -1,0 +1,95 @@
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+
+<dom-module id="custom-input">
+
+  <template>
+    <style>
+      :host {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        height: 50px;
+        width: 100%;
+      }
+      
+
+      input {
+        padding: 10px;
+        padding-right: 0; 
+        height: 100%;
+        border: 1px solid grey;
+        
+        border-radius: 5px;
+        width: 100%;
+      }
+
+      button {
+        background-color: red;
+        color: white;
+        border: none;
+        width: 20%;
+        height: 80%;
+        border-radius: 5px;
+      }
+
+      .iron-input {
+          width: 70%;
+      }
+
+      button:hover {
+        cursor: pointer;
+      }
+
+      button:disabled {
+        background-color: rgb(252, 90, 90);
+      }
+
+    </style>
+
+
+
+    <iron-input class="iron-input" bind-value="{{topic}}">
+        <input placeholder="[[placeholder]]" is="iron-input" on-keydown="doSearchEnter">
+    </iron-input>
+    
+    <button on-click="doSearch" disabled="[[_checkLength(topic)]]">Search</button>
+    
+  </template>
+
+  <script>
+  
+    class CustomInput extends Polymer.Element {
+      
+        static get is() { return "custom-input"; }
+      
+        static get properties() {
+            return {
+                topic: {
+                    type: String,
+                    value: '',
+                    notify: true
+                },
+                placeholder: {
+                    type: String,
+                    value: 'Search movie..'
+                }
+            }
+        }
+
+        doSearch(e) {
+            this.dispatchEvent(new CustomEvent('searchFilm', { composed: true, detail: { value: this.topic } }));
+        }
+
+        doSearchEnter(e) {
+            if (e.keyCode === 13) this.doSearch(e);
+        }
+
+        _checkLength(topic){
+            return topic.length < 1;
+        }
+      
+    }
+    customElements.define(CustomInput.is, CustomInput);
+  </script>
+
+</dom-module>

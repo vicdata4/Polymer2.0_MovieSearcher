@@ -1,0 +1,39 @@
+
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="custom-input.html">
+<link rel="import" href="custom-list.html">
+
+<dom-module id="anything-finder">
+
+  <template>
+    <style>
+      :host {}
+      
+      iron-list {
+        border: solid 1px black;
+        margin-top: 1rem;
+        height: 500px;
+      }
+
+      h4 {
+        text-align: center;
+      }
+    </style>
+    
+    <h4>Movie searcher</h4>
+    <custom-input></custom-input>
+    <custom-list list="[[list]]"></custom-list>
+
+  </template>
+
+  <script>
+  
+    class AnythingFinder extends Polymer.Element {
+      
+      static get is() { return "anything-finder"; }
+
+    }
+    customElements.define(AnythingFinder.is, AnythingFinder);
+  </script>
+
+</dom-module>

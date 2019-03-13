@@ -1,0 +1,68 @@
+
+<dom-module id="single-movie">
+
+  <template>
+    <style>
+      :host {}
+
+      img{
+        width: 100px;   
+        height: 100%;
+        min-width: 100px;
+        min-height: 120px;
+      }
+
+      span {
+          margin: 0;
+      }
+
+      .movie {
+        display: flex;
+        border: 1px solid #dddddd;
+        margin: 10px;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        border-right: 2px solid #cad8d8;
+      }
+
+      .movie div{
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+      }
+
+      h4 {
+        margin: 10px;
+      }
+
+      span {
+          padding-left: 10px;
+      }
+
+    </style>
+
+    <div class="movie">
+        <img src="[[setImage(movie.Poster)]]" alt="">
+        <div>
+            <h4>[[movie.Title]]</h4>
+            <span>[[movie.Year]]</span>
+        </div>
+    </div>
+    
+  </template>
+
+  <script>
+  
+    class SingleMovie extends Polymer.Element {
+      
+        static get is() { return "single-movie"; }
+      
+        setImage(url){
+          return url !== 'N/A' ? url : 'assets/empty_image.png';
+        }
+    }
+
+    customElements.define(SingleMovie.is, SingleMovie);
+  </script>
+
+</dom-module>

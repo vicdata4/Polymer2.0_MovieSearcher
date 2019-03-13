@@ -1,1 +1,59 @@
+<link rel="import" href="single-movie.html">
 
+<dom-module id="custom-list">
+
+  <template>
+    <style>
+
+      :host {}
+
+      .movies-container {
+        display: grid;
+        grid-template-columns: repeat(1 , 1fr);
+        justify-content: center;
+      }
+
+      
+
+      @media screen and (min-width: 700px) {
+        .movies-container {
+            grid-template-columns: repeat(2 , 1fr);
+        }
+      }
+
+      @media screen and (min-width: 900px) {
+        .movies-container {
+            grid-template-columns: repeat(3 , 1fr);
+        }
+      }
+
+      @media screen and (min-width: 1100px) {
+        .movies-container {
+            grid-template-columns: repeat(4 , 1fr);
+        }
+      }
+
+    </style>
+
+    <div class="movies-container">
+        <template is="dom-repeat" items="[[list]]" as="element">
+            <single-movie movie="[[element]]"></single-movie>
+        </template>
+    </div>
+
+  </template>
+
+  <script>
+  
+    class CustomList extends Polymer.Element {
+      
+      static get is() { return "custom-list"; }
+      
+      static get properties() {
+        return {}
+      }
+    }
+    customElements.define(CustomList.is, CustomList);
+  </script>
+
+</dom-module>
