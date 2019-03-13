@@ -1,0 +1,104 @@
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="components/anything-finder.html">
+<link rel="import" href="bower_components/promise-polyfill/promise-polyfill-lite.html">
+<link rel="import" href="bower_components/paper-spinner/paper-spinner.html">
+
+<dom-module id="app-shell">
+
+  <template>
+    <style>
+      :host {
+        padding: 1rem;
+        text-align: center;
+        font-family:'Lucida Sans';
+      }
+
+      :host div {
+        height: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+    </style>
+    
+    <iron-ajax
+        id="irox"
+        url=[[url]]
+        loading="{{searching}}"
+        last-response="{{films}}"
+        on-response="_requestResponse"
+    ></iron-ajax>
+
+    <anything-finder list="{{films.Search}}"></anything-finder>
+
+    <div>
+      <paper-spinner active="[[searching]]"></paper-spinner>
+      <h4 hidden$="[[!noresult]]">No results</h4>
+    </div>
+  </template>
+
+  <script>
+    class AppShell extends Polymer.Element {
+      
+      static get is() { return "app-shell"; }
+      
+      static get properties() {
+        return {
+          films: {
+            type: Array,
+            notify: false,
+            readOnly: false
+          },
+          url: {
+            type: String,
+            value: "http://www.omdbapi.com/"
+          },
+          searching: {
+            type: Boolean,
+            value: false
+          },
+          noresult: {
+            type: Boolean,
+            value: false
+          }
+        }
+      }
+
+      constructor (){
+        super();
+        this.myString = 'Hello World';
+      }
+
+      ready() {
+        super.ready();
+        this.addEventListener('searchFilm', this._searchFilm);
+      }
+
+      _requestResponse(){
+        if(!this.films.Search) this.noresult = true;
+      }
+      
+      _searchFilm(event) {
+        const keywords = event.detail.value;
+
+        if(keywords && keywords !== '') {
+
+          this.films = [];
+          this.noresult = false;
+
+          let obj = {
+            s: event.detail.value,
+            plot: 'full',
+            apikey: 'e477ed6a'
+          };
+          
+          this.$.irox.params = obj;
+          this.$.irox.generateRequest();
+        }
+      }
+    }
+    customElements.define(AppShell.is, AppShell);
+  </script>
+
+</dom-module>
